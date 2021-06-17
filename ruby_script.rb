@@ -6,15 +6,24 @@ Return a JSON object with the key “return_string” and a string containing ev
 (e.g.) If you POST {"string_to_cut": "iamyourlyftdriver"}, it will return: {"return_string": "muydv"}.
 
 Note: To see expected behavior you can test against a current working example with the command: 
-curl -X POST https://lyft-interview-test.glitch.me/test --data '{"string_to_cut": "iamyourlyftdriver"}' -H 
-'Content-Type: application/json'
+curl -X POST https://lyft-interview-test.glitch.me/test --data '{"string_to_cut": "iamyourlyftdriver"}' -H 'Content-Type: application/json'
   
 =end
 
 
 require 'uri'
 require 'net/http'
+require 'httparty'
 
-uri = URI('https://lyft-interview-test.glitch.me/test')
-res = Net::HTTP.get_response(uri)
-pp res.body if res.is_a?(Net::HTTPSuccess)
+# uri = URI('https://lyft-interview-test.glitch.me/test')
+# res = Net::HTTP.get_response(uri)
+# pp res.body if res.is_a?(Net::HTTPSuccess)
+
+uri = ('https://lyft-interview-test.glitch.me')
+response = HTTParty.get(uri)
+puts("response code: #{response.code}")
+puts("response json: #{response.body}")
+
+options = {"string_to_cut": "iamyourlyftdriver"}
+results = HTTParty.post(uri + '/test', options)
+puts("results: #{response}")
